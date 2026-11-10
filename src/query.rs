@@ -1949,6 +1949,7 @@ add_lints!(
     trait_unsafe_added,
     trait_unsafe_removed,
     tuple_struct_to_plain_struct,
+    type_alias_missing,
     type_allows_fewer_const_generic_params,
     type_allows_fewer_generic_type_params,
     type_associated_const_marked_deprecated,
