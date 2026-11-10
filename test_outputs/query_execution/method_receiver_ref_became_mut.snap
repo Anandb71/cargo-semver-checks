@@ -1,5 +1,6 @@
 ---
 source: src/query.rs
+assertion_line: 1110
 ---
 {
   "./test_crates/method_receiver_changes/": [
@@ -27,6 +28,21 @@ source: src/query.rs
       "receiver_kind": String("Self"),
       "span_begin_line": Uint64(64),
       "span_end_line": Uint64(66),
+      "span_filename": String("src/lib.rs"),
+    },
+  ],
+  "./test_crates/method_receiver_ref_mut_multi_impl/": [
+    {
+      "method_name": String("mutate"),
+      "name": String("Changed"),
+      "owner_type": String("Struct"),
+      "path": List([
+        String("method_receiver_ref_mut_multi_impl"),
+        String("Changed"),
+      ]),
+      "receiver_kind": String("Self"),
+      "span_begin_line": Uint64(37),
+      "span_end_line": Uint64(39),
       "span_filename": String("src/lib.rs"),
     },
   ],

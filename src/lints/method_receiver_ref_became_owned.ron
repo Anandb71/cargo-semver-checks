@@ -64,6 +64,23 @@ SemverQuery(
                                 }
                             }
                         }
+
+                        # Different impl blocks can have same-named methods with different receivers.
+                        # Do not report a change if a method with the baseline receiver still exists.
+                        inherent_impl @fold
+                                      @transform(op: "count")
+                                      @filter(op: "=", value: ["$zero"]) {
+                            method {
+                                visibility_limit @filter(op: "one_of", value: ["$public_or_default"])
+                                name @filter(op: "=", value: ["%method_name"])
+                                public_api_eligible @filter(op: "=", value: ["$true"])
+
+                                receiver {
+                                    by_reference @filter(op: "=", value: ["$true"])
+                                    kind @filter(op: "=", value: ["%receiver_kind"])
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -71,7 +88,9 @@ SemverQuery(
     }"#,
     arguments: {
         "public": "public",
+        "public_or_default": ["public", "default"],
         "true": true,
+        "zero": 0,
     },
     error_message: "A method's receiver changed from an immutable reference to an owned value. Ownership is transferred as part of the call, which is a breaking change.",
     per_result_error_template: Some("{{join \"::\" path}}::{{method_name}} now takes {{receiver_kind}}, not &{{receiver_kind}}, in {{span_filename}}:{{span_begin_line}}"),
